@@ -1,0 +1,4222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mechanical Department Student Academic Year</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+    transition:.3s;
+}
+
+button,input,select{
+    font:inherit;
+}
+
+/* =========================
+   AUTH SCREEN
+========================= */
+
+.auth-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+    radial-gradient(circle at top right,rgba(124,58,237,.25),transparent 35%),
+    radial-gradient(circle at bottom left,rgba(37,99,235,.20),transparent 35%),
+    #f4f7fb;
+}
+
+.auth-card{
+    width:100%;
+    max-width:470px;
+    background:white;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 15px 50px rgba(0,0,0,.12);
+}
+
+.auth-logo{
+    width:65px;
+    height:65px;
+    margin:0 auto 15px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+}
+
+.auth-card h1{
+    text-align:center;
+    font-size:25px;
+}
+
+.auth-subtitle{
+    text-align:center;
+    color:#64748b;
+    font-size:14px;
+    margin:8px 0 25px;
+}
+
+.auth-tabs{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    background:#f1f5f9;
+    padding:5px;
+    border-radius:12px;
+    margin-bottom:25px;
+}
+
+.auth-tab{
+    border:none;
+    background:transparent;
+    padding:11px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#64748b;
+}
+
+.auth-tab.active{
+    background:white;
+    color:#2563eb;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.admin-tab{
+    color:#b45309;
+}
+
+.admin-panel{
+    display:none;
+    padding:45px 7%;
+}
+
+.admin-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.admin-card{
+    background:white;
+    padding:22px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+
+.admin-card h2{
+    margin-bottom:15px;
+}
+
+.admin-form{
+    display:grid;
+    gap:10px;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #dbe2ea;
+    border-radius:10px;
+    resize:vertical;
+    font:inherit;
+}
+
+.admin-action{
+    border:none;
+    padding:10px 13px;
+    border-radius:9px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
+.admin-action.danger{
+    background:#dc2626;
+}
+
+.syllabus-section-row{
+    display:grid;
+    gap:8px;
+    padding:12px;
+    border:1px solid #dbe2ea;
+    border-radius:10px;
+}
+
+.syllabus-section-row button{
+    justify-self:end;
+}
+
+.resource-editor{
+    display:grid;
+    gap:12px;
+}
+
+.resource-editor textarea{
+    min-height:110px;
+}
+
+.resource-editor input[type="file"]{
+    padding:9px;
+    border:1px dashed #94a3b8;
+    border-radius:10px;
+    background:#f8fafc;
+}
+
+.admin-list{
+    display:grid;
+    gap:9px;
+    max-height:260px;
+    overflow:auto;
+}
+
+.admin-list-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:11px;
+    background:#f8fafc;
+    border-radius:10px;
+    font-size:13px;
+}
+
+.admin-list-item small{
+    display:block;
+    color:#64748b;
+}
+
+body.dark .admin-card{
+    background:#1e293b;
+    color:#f8fafc;
+}
+
+body.dark .admin-form input,
+body.dark .admin-form select,
+body.dark .admin-form textarea{
+    background:#0f172a;
+    color:white;
+    border-color:#475569;
+}
+
+body.dark .resource-editor input[type="file"]{
+    background:#26364d;
+    color:white;
+}
+
+body.dark .admin-list-item{
+    background:#26364d;
+}
+
+@media(max-width:650px){
+    .admin-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid #dbe2ea;
+    border-radius:10px;
+    outline:none;
+    background:white;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+.password-wrapper{
+    position:relative;
+}
+
+.password-wrapper input{
+    padding-right:48px;
+}
+
+.password-toggle{
+    position:absolute;
+    right:10px;
+    top:8px;
+    border:none;
+    background:transparent;
+    padding:7px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.auth-btn{
+    width:100%;
+    border:none;
+    padding:14px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:5px;
+}
+
+.auth-btn:hover{
+    opacity:.92;
+}
+
+.forgot-link{
+    display:block;
+    margin:14px 0 2px;
+    border:none;
+    background:none;
+    color:#2563eb;
+    cursor:pointer;
+    font-size:13px;
+    text-align:center;
+    width:100%;
+}
+
+.auth-message{
+    min-height:20px;
+    margin:10px 0;
+    font-size:13px;
+    text-align:center;
+}
+
+.error{
+    color:#dc2626;
+}
+
+.success{
+    color:#16a34a;
+}
+
+.demo-note{
+    margin-top:18px;
+    padding:12px;
+    background:#eff6ff;
+    border-radius:10px;
+    color:#475569;
+    font-size:12px;
+    text-align:center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:18px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    background:white;
+    color:#2563eb;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+.logo h1{
+    font-size:20px;
+}
+
+.logo p{
+    font-size:12px;
+    opacity:.85;
+}
+
+.header-buttons{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.header-btn{
+    border:none;
+    background:rgba(255,255,255,.15);
+    color:white;
+    padding:10px 13px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.student-mini{
+    background:rgba(255,255,255,.15);
+    padding:9px 12px;
+    border-radius:10px;
+    font-size:13px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    padding:55px 7%;
+    background:
+    radial-gradient(circle at top right,rgba(124,58,237,.15),transparent 35%),
+    radial-gradient(circle at bottom left,rgba(37,99,235,.12),transparent 35%);
+}
+
+.hero-content{
+    max-width:850px;
+}
+
+.hero h2{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.hero h2 span{
+    color:#2563eb;
+}
+
+.hero p{
+    color:#64748b;
+    font-size:17px;
+    line-height:1.6;
+}
+
+.search-area{
+    margin-top:30px;
+}
+
+.search-box{
+    position:relative;
+}
+
+.search-box input{
+    width:100%;
+    padding:16px 20px 16px 48px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+    font-size:15px;
+    outline:none;
+}
+
+.search-icon{
+    position:absolute;
+    left:18px;
+    top:15px;
+}
+
+/* =========================
+   STUDENT DASHBOARD
+========================= */
+
+.student-dashboard{
+    padding:0 7%;
+    margin-top:25px;
+}
+
+.welcome-card{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(37,99,235,.25);
+}
+
+.welcome-card h2{
+    margin-bottom:7px;
+}
+
+.welcome-card p{
+    color:rgba(255,255,255,.85);
+    font-size:14px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    padding:0 7%;
+    margin-top:25px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.stat-card{
+    background:white;
+    padding:22px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+
+.stat-card h3{
+    font-size:28px;
+    color:#2563eb;
+}
+
+.stat-card p{
+    color:#64748b;
+    margin-top:5px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    padding:45px 7%;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.section-header h2{
+    font-size:27px;
+}
+
+.filters{
+    display:flex;
+    gap:10px;
+}
+
+.filters select{
+    padding:11px 15px;
+    border:1px solid #dbe2ea;
+    border-radius:10px;
+    background:white;
+    outline:none;
+}
+
+/* =========================
+   SUBJECT GRID
+========================= */
+
+.subject-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.subject-card{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+    border:1px solid #edf0f5;
+    transition:.3s;
+}
+
+.subject-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 12px 28px rgba(0,0,0,.1);
+}
+
+.subject-top{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.subject-icon{
+    width:52px;
+    height:52px;
+    border-radius:14px;
+    background:#eff6ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+}
+
+.subject-number{
+    font-size:12px;
+    color:#64748b;
+}
+
+.subject-card h3{
+    font-size:17px;
+    line-height:1.4;
+}
+
+.subject-card p{
+    color:#64748b;
+    font-size:13px;
+    margin:10px 0;
+}
+
+.progress{
+    height:7px;
+    background:#e5e7eb;
+    border-radius:10px;
+    overflow:hidden;
+    margin:15px 0;
+}
+
+.progress-bar{
+    height:100%;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    border-radius:10px;
+}
+
+.card-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.card-buttons button{
+    border:none;
+    padding:10px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:12px;
+    background:#f1f5f9;
+    color:#334155;
+}
+
+.card-buttons button:hover{
+    background:#2563eb;
+    color:white;
+}
+
+.card-buttons .primary{
+    background:#2563eb;
+    color:white;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.features{
+    margin-top:55px;
+}
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-top:20px;
+}
+
+.feature{
+    background:white;
+    padding:25px;
+    border-radius:17px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.feature-icon{
+    font-size:32px;
+    margin-bottom:12px;
+}
+
+.feature h3{
+    margin-bottom:8px;
+}
+
+.feature p{
+    color:#64748b;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.student-tools{
+    margin-top:55px;
+}
+
+.tools-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.tool-card{
+    background:white;
+    padding:22px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+    border:1px solid #edf0f5;
+}
+
+.tool-card h3{
+    margin-bottom:8px;
+}
+
+.tool-card p{
+    color:#64748b;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.tool-form{
+    display:grid;
+    gap:9px;
+    margin-top:15px;
+}
+
+.tool-form input,
+.tool-form select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid #dbe2ea;
+    border-radius:9px;
+    background:white;
+}
+
+.cnc-editor{
+    width:100%;
+    min-height:150px;
+    margin-top:15px;
+    padding:12px;
+    border:1px solid #dbe2ea;
+    border-radius:9px;
+    background:#0f172a;
+    color:#e2e8f0;
+    font:13px/1.5 Consolas, "Courier New", monospace;
+    resize:vertical;
+}
+
+.tool-action{
+    border:none;
+    padding:10px 13px;
+    border-radius:9px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
+.tool-result{
+    margin-top:12px;
+    padding:10px;
+    border-radius:9px;
+    background:#eff6ff;
+    color:#1e40af;
+    font-size:13px;
+    min-height:18px;
+}
+
+.challenge-answer{
+    display:none;
+    margin-top:12px;
+    padding:12px;
+    border-left:3px solid #2563eb;
+    background:#eff6ff;
+    color:#334155;
+    font-size:13px;
+    white-space:pre-wrap;
+    font-family:Consolas, "Courier New", monospace;
+}
+
+.placement-list{
+    display:grid;
+    gap:9px;
+    margin-top:15px;
+}
+
+.placement-list div{
+    padding:11px;
+    background:#f8fafc;
+    border-radius:9px;
+    font-size:13px;
+}
+
+body.dark .tool-card{
+    background:#1e293b;
+    color:#f8fafc;
+    border-color:#334155;
+}
+
+body.dark .tool-form input,
+body.dark .tool-form select{
+    background:#0f172a;
+    color:white;
+    border-color:#475569;
+}
+
+body.dark .cnc-editor{
+    border-color:#475569;
+}
+
+body.dark .placement-list div{
+    background:#26364d;
+}
+
+body.dark .tool-result,
+body.dark .challenge-answer{
+    background:#26364d;
+    color:#dbeafe;
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:2000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:600px;
+    border-radius:20px;
+    padding:30px;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    border:none;
+    background:#f1f5f9;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.modal-list{
+    list-style:none;
+}
+
+.modal-list li{
+    background:#f8fafc;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+.modal-list li:hover{
+    background:#eff6ff;
+}
+
+.print-syllabus-btn{
+    width:100%;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:6px;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-card{
+    max-width:550px;
+    margin:auto;
+}
+
+.profile-avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    margin:0 auto 20px;
+}
+
+.profile-info{
+    display:grid;
+    gap:12px;
+}
+
+.profile-row{
+    padding:14px;
+    background:#f8fafc;
+    border-radius:10px;
+}
+
+.profile-row strong{
+    display:block;
+    font-size:12px;
+    color:#64748b;
+    margin-bottom:4px;
+}
+
+.profile-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.profile-actions button{
+    flex:1;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.logout-btn{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.close-profile{
+    background:#2563eb;
+    color:white;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:50px;
+    background:#111827;
+    color:white;
+    padding:35px 7%;
+    text-align:center;
+}
+
+footer p{
+    color:#9ca3af;
+    margin-top:8px;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+    background:#0f172a;
+    color:#f8fafc;
+}
+
+body.dark .auth-screen{
+    background:#0f172a;
+}
+
+body.dark .auth-card,
+body.dark .stat-card,
+body.dark .subject-card,
+body.dark .feature,
+body.dark .search-box input,
+body.dark .filters select,
+body.dark .modal-box{
+    background:#1e293b;
+    color:#f8fafc;
+    border-color:#334155;
+}
+
+body.dark .auth-tabs{
+    background:#0f172a;
+}
+
+body.dark .auth-tab.active{
+    background:#334155;
+    color:white;
+}
+
+body.dark .form-group input,
+body.dark .form-group select{
+    background:#0f172a;
+    color:white;
+    border-color:#475569;
+}
+
+body.dark .hero p,
+body.dark .subject-card p,
+body.dark .stat-card p,
+body.dark .feature p{
+    color:#94a3b8;
+}
+
+body.dark .subject-icon{
+    background:#26364d;
+}
+
+body.dark .card-buttons button{
+    background:#334155;
+    color:white;
+}
+
+body.dark .progress{
+    background:#334155;
+}
+
+body.dark .modal-list li,
+body.dark .profile-row{
+    background:#26364d;
+}
+
+body.dark .filters select{
+    color:white;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .subject-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .feature-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+
+    header{
+        padding:15px 5%;
+    }
+
+    .hero{
+        padding:40px 5%;
+    }
+
+    .hero h2{
+        font-size:30px;
+    }
+
+    main{
+        padding:35px 5%;
+    }
+
+    .stats{
+        padding:0 5%;
+        grid-template-columns:1fr 1fr;
+    }
+
+    .student-dashboard{
+        padding:0 5%;
+    }
+
+    .subject-grid{
+        grid-template-columns:1fr;
+    }
+
+    .feature-grid{
+        grid-template-columns:1fr;
+    }
+
+    .tools-grid{
+        grid-template-columns:1fr;
+    }
+
+    .logo h1{
+        font-size:16px;
+    }
+
+    .logo p{
+        display:none;
+    }
+
+    .header-btn{
+        padding:8px;
+    }
+
+    .student-mini{
+        display:none;
+    }
+
+    .auth-card{
+        padding:25px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN / REGISTRATION SCREEN
+===================================================== -->
+
+<div class="auth-screen" id="authScreen">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">⚙️</div>
+
+        <h1>Mechanical Department Student Academic Year</h1>
+
+        <p class="auth-subtitle">
+            Diploma Engineering Study Platform
+        </p>
+
+        <div class="auth-tabs">
+
+            <button
+                class="auth-tab active"
+                id="loginTab"
+                onclick="showLogin()">
+                🔐 Login
+            </button>
+
+            <button
+                class="auth-tab"
+                id="registerTab"
+                onclick="showRegister()">
+                📝 Sign Up
+            </button>
+
+            <button
+                class="auth-tab admin-tab"
+                id="adminTab"
+                onclick="showAdminLogin()">
+                🛡️ Admin
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form id="loginForm" onsubmit="loginStudent(event)">
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('loginPassword','loginEye')">
+
+                        <span id="loginEye">👁️</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="auth-message"
+                id="loginMessage">
+            </div>
+
+
+            <button class="auth-btn" type="submit">
+                🔐 Login
+            </button>
+
+            <button class="forgot-link" type="button" onclick="showForgotPassword()">
+                Forgot password?
+            </button>
+
+        </form>
+
+        <!-- PASSWORD RECOVERY FORM -->
+
+        <form
+            id="forgotPasswordForm"
+            style="display:none"
+            onsubmit="requestPasswordOtp(event)">
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="forgotEmail" placeholder="Registered email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="forgotMobile" placeholder="Registered 10 digit phone number" maxlength="10" required>
+            </div>
+
+            <div class="auth-message" id="forgotMessage"></div>
+
+            <button class="auth-btn" type="submit">📨 Send Verification OTP</button>
+
+            <button class="forgot-link" type="button" onclick="showLogin()">
+                Back to login
+            </button>
+        </form>
+
+        <form
+            id="verifyOtpForm"
+            style="display:none"
+            onsubmit="verifyPasswordOtp(event)">
+
+            <div class="form-group">
+                <label>Verification OTP</label>
+                <input type="text" id="forgotOtp" placeholder="Enter 6 digit OTP" inputmode="numeric" maxlength="6" required>
+            </div>
+
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" id="newPassword" placeholder="At least 6 characters" minlength="6" required>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" id="confirmNewPassword" placeholder="Repeat new password" minlength="6" required>
+            </div>
+
+            <div class="auth-message" id="verifyMessage"></div>
+
+            <button class="auth-btn" type="submit">✅ Verify OTP & Reset Password</button>
+        </form>
+
+        <!-- ADMIN LOGIN FORM -->
+
+        <form
+            id="adminLoginForm"
+            style="display:none"
+            onsubmit="loginAdmin(event)">
+
+            <div class="form-group">
+                <label>Admin Email</label>
+                <input type="email" id="adminEmail" placeholder="admin@college.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+            </div>
+
+            <div class="auth-message" id="adminMessage"></div>
+
+            <button class="auth-btn" type="submit">🛡️ Open Admin Dashboard</button>
+
+            <div class="demo-note">Demo admin: admin@college.com / admin123</div>
+        </form>
+
+
+        <!-- REGISTER FORM -->
+
+        <form
+            id="registerForm"
+            style="display:none"
+            onsubmit="registerStudent(event)">
+
+            <div class="form-group">
+
+                <label>👤 Student Name</label>
+
+                <input
+                    type="text"
+                    id="regName"
+                    placeholder="Enter full name"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>📧 Email</label>
+
+                <input
+                    type="email"
+                    id="regEmail"
+                    placeholder="Enter email address"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>📱 Mobile Number</label>
+
+                <input
+                    type="tel"
+                    id="regMobile"
+                    placeholder="10 digit mobile number"
+                    maxlength="10"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>🔒 Verification Code</label>
+
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                    <strong id="signupCaptchaCode" style="letter-spacing:4px;padding:10px 14px;background:#eef2ff;border-radius:8px;color:#3730a3;font-size:18px;"></strong>
+                    <button type="button" class="forgot-link" onclick="refreshSignupCaptcha()">↻ Refresh</button>
+                </div>
+
+                <input
+                    type="text"
+                    id="signupCaptchaInput"
+                    placeholder="Enter the code above"
+                    maxlength="6"
+                    autocomplete="off"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>🎓 Diploma Branch</label>
+
+                <select id="regBranch" required>
+
+                    <option value="">
+                        Select Branch
+                    </option>
+
+                    <option value="Mechanical Engineering">
+                        Mechanical Engineering
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>📚 Semester</label>
+
+                <select id="regSemester" required>
+
+                    <option value="">
+                        Select Semester
+                    </option>
+
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>🔑 Password</label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="regPassword"
+                        placeholder="Create password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('regPassword','regEye')">
+
+                        <span id="regEye">👁️</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>🔑 Confirm Password</label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="regConfirmPassword"
+                        placeholder="Confirm password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('regConfirmPassword','confirmEye')">
+
+                        <span id="confirmEye">👁️</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="auth-message"
+                id="registerMessage">
+            </div>
+
+
+            <button class="auth-btn" type="submit">
+                📝 Create Student Account
+            </button>
+
+        </form>
+
+        <div class="demo-note">
+            ☁️ Online-ready portal • Student accounts can be connected to a shared database when deployed.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN PORTAL
+===================================================== -->
+
+<div id="portal" style="display:none">
+
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ⚙️
+        </div>
+
+        <div>
+            <h1>Mechanical Department Student Academic Year</h1>
+            <p>Diploma Engineering Study Platform</p>
+        </div>
+
+    </div>
+
+
+    <div class="header-buttons">
+
+        <span
+            class="student-mini"
+            id="headerStudentName">
+            Student
+        </span>
+
+        <button
+            class="header-btn"
+            id="studentProfileButton"
+            onclick="openProfile()">
+            👤 Profile
+        </button>
+
+        <button
+            class="header-btn"
+            onclick="toggleDarkMode()">
+            🌙
+        </button>
+
+        <button
+            class="header-btn"
+            id="studentLogoutButton"
+            onclick="logoutStudent()">
+            🚪 Logout
+        </button>
+
+        <button
+            class="header-btn"
+            onclick="showAbout()">
+            About
+        </button>
+
+        <button
+            class="header-btn"
+            id="adminLogoutButton"
+            style="display:none"
+            onclick="logoutAdmin()">
+            🚪 Admin Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero student-only">
+
+    <div class="hero-content">
+
+        <h2>
+            Learn Mechanical Engineering
+            <span>Smarter</span>
+        </h2>
+
+        <p>
+            Complete study portal for Mechanical Engineering students.
+            Access subjects, notes, important questions, MCQs,
+            syllabus and exam preparation resources in one place.
+        </p>
+
+
+        <div class="search-area">
+
+            <div class="search-box">
+
+                <span class="search-icon">🔍</span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search subject, notes or topic..."
+                    onkeyup="searchSubjects()">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STUDENT DASHBOARD -->
+
+<section class="student-dashboard student-only">
+
+    <div class="welcome-card">
+
+        <h2>
+            👋 Welcome, <span id="welcomeName">Student</span>!
+        </h2>
+
+        <p id="welcomeDetails">
+            Mechanical Engineering Student
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section class="stats student-only">
+
+    <div class="stat-card">
+        <h3>25</h3>
+        <p>Total Subjects</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>500+</h3>
+        <p>Study Topics</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>1000+</h3>
+        <p>MCQ Questions</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>24/7</h3>
+        <p>Study Access</p>
+    </div>
+
+</section>
+
+
+<!-- SUBJECTS -->
+
+<main class="student-only">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>📚 Mechanical Engineering Subjects</h2>
+
+            <p style="color:#64748b;margin-top:5px;">
+                Select a subject to start learning
+            </p>
+
+        </div>
+
+
+        <div class="filters">
+
+            <select
+                id="semesterFilter"
+                onchange="filterSubjects()">
+
+                <option value="all">
+                    All Semesters
+                </option>
+
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="subject-grid"
+        id="subjectGrid">
+    </div>
+
+
+    <!-- FEATURES -->
+
+    <section class="features">
+
+        <div class="section-header">
+
+            <div>
+                <h2>🚀 Portal Features</h2>
+            </div>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <div class="feature">
+
+                <div class="feature-icon">📖</div>
+
+                <h3>Study Notes</h3>
+
+                <p>
+                    Unit-wise and chapter-wise notes
+                    for Mechanical Engineering subjects.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">🧠</div>
+
+                <h3>MCQ Practice</h3>
+
+                <p>
+                    Practice objective questions
+                    and improve your exam preparation.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">⭐</div>
+
+                <h3>Important Questions</h3>
+
+                <p>
+                    Important questions for
+                    examination revision.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">📊</div>
+
+                <h3>Progress Tracking</h3>
+
+                <p>
+                    Track your subject learning
+                    progress.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- STUDENT TOOLS -->
+
+<section class="student-tools student-only" id="studentTools">
+
+    <div class="section-header">
+        <div>
+            <h2>🛠️ Mechanical Student Toolkit</h2>
+            <p style="color:#64748b;margin-top:5px;">Practical tools for daily study, workshop planning and placements.</p>
+        </div>
+    </div>
+
+    <div class="tools-grid">
+
+        <div class="tool-card">
+            <h3>⚙️ Engineering Toolbox</h3>
+            <p>Quick calculations for force, gear speed and length conversion.</p>
+            <div class="tool-form">
+                <input type="number" id="forceMass" placeholder="Mass (kg)">
+                <input type="number" id="forceAcceleration" placeholder="Acceleration (m/s²)">
+                <button class="tool-action" type="button" onclick="calculateForce()">Calculate Force</button>
+                <div class="tool-result" id="forceResult"></div>
+                <input type="number" id="gearRpm" placeholder="Motor speed (RPM)">
+                <input type="number" id="gearDriver" placeholder="Driver teeth">
+                <input type="number" id="gearDriven" placeholder="Driven teeth">
+                <button class="tool-action" type="button" onclick="calculateGearSpeed()">Calculate Gear Speed</button>
+                <div class="tool-result" id="gearResult"></div>
+                <input type="number" id="millimeters" placeholder="Millimeters">
+                <button class="tool-action" type="button" onclick="convertMillimeters()">Convert to Metres and Inches</button>
+                <div class="tool-result" id="lengthResult"></div>
+            </div>
+        </div>
+
+        <div class="tool-card">
+            <h3>🧠 Daily Technical Challenge</h3>
+            <p id="dailyChallengeQuestion">Loading today&apos;s challenge...</p>
+            <button class="tool-action" type="button" onclick="showDailyAnswer()">Reveal Answer</button>
+            <div class="challenge-answer" id="dailyChallengeAnswer"></div>
+            <textarea class="cnc-editor" id="cncCode" spellcheck="false" placeholder="Write CNC code here...&#10;G21 G90&#10;G00 X0 Y0&#10;G01 X50 Y10 F100&#10;M30"></textarea>
+            <button class="tool-action" type="button" onclick="checkCncCode()">Check CNC Code</button>
+            <div class="tool-result" id="cncResult">Your CNC code check result will appear here.</div>
+        </div>
+
+        <div class="tool-card">
+            <h3>💼 Placement Corner</h3>
+            <p>Small weekly actions that build a stronger mechanical engineering profile.</p>
+            <div class="placement-list">
+                <div><strong>Project:</strong> Document one machine, mechanism or workshop improvement.</div>
+                <div><strong>Skills:</strong> Practise CAD, measurement, material science and maintenance basics.</div>
+                <div><strong>Interview:</strong> Prepare a two-minute explanation of your best practical project.</div>
+                <div><strong>Resume:</strong> Add tools used, measurable results and workshop safety experience.</div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SUBJECT MODAL -->
+
+<div
+    class="modal"
+    id="subjectModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Subject
+                </h2>
+
+                <p id="modalSubtitle"></p>
+                <p id="modalDescription" style="margin-top:8px;color:#64748b;"></p>
+
+            </div>
+
+            <button
+                class="close"
+                onclick="closeModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <h3 style="margin-bottom:15px;">
+            📚 Study Resources
+        </h3>
+
+
+        <ul class="modal-list">
+
+            <li onclick="resourceMessage('Syllabus')">
+                📋 Syllabus
+            </li>
+
+            <li onclick="resourceMessage('Chapter-wise Notes')">
+                📖 Chapter-wise Notes
+            </li>
+
+            <li onclick="resourceMessage('Important Questions')">
+                ⭐ Important Questions
+            </li>
+
+            <li onclick="resourceMessage('MCQ Practice')">
+                🧠 MCQ Practice
+            </li>
+
+            <li onclick="resourceMessage('Previous Year Questions')">
+                📄 Previous Year Questions
+            </li>
+
+            <li onclick="resourceMessage('Model Answers')">
+                ✅ Model Answers
+            </li>
+
+            <li onclick="resourceMessage('Manual Answer Key')">
+                🗝️ Manual Answer Key
+            </li>
+
+            <li onclick="resourceMessage('Video Lecture')">
+                🎥 Video Lecture
+            </li>
+
+            <li onclick="resourceMessage('PDF Notes')">
+                📥 Download PDF Notes
+            </li>
+
+        </ul>
+
+        <button class="print-syllabus-btn" onclick="saveSyllabusAsPdf()">
+            🖨️ Save Syllabus as PDF
+        </button>
+
+        <button class="print-syllabus-btn" onclick="saveAllResourcesAsPdf()">
+            📥 Download All Resources as PDF
+        </button>
+
+    </div>
+
+</div>
+
+<div class="modal" id="unitNotesModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div>
+                <h2 id="unitNotesTitle">Chapter-wise Notes</h2>
+                <p id="unitNotesSubtitle"></p>
+            </div>
+            <button class="close" onclick="closeUnitNotesModal()">×</button>
+        </div>
+        <ul class="modal-list" id="unitNotesList"></ul>
+    </div>
+</div>
+
+
+<!-- PROFILE MODAL -->
+
+<div
+    class="modal"
+    id="profileModal">
+
+    <div class="modal-box profile-card">
+
+        <div class="modal-header">
+
+            <h2>👤 Student Profile</h2>
+
+            <button
+                class="close"
+                onclick="closeProfile()">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="profile-avatar">
+            👨‍🎓
+        </div>
+
+
+        <div class="profile-info">
+
+            <div class="profile-row">
+
+                <strong>Student Name</strong>
+
+                <span id="profileName"></span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <strong>Email Address</strong>
+
+                <span id="profileEmail"></span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <strong>Mobile Number</strong>
+
+                <span id="profileMobile"></span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <strong>Diploma Branch</strong>
+
+                <span id="profileBranch"></span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <strong>Semester</strong>
+
+                <span id="profileSemester"></span>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-actions">
+
+            <button
+                class="close-profile"
+                onclick="closeProfile()">
+                Close
+            </button>
+
+            <button
+                class="logout-btn"
+                onclick="logoutStudent()">
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ADMIN DASHBOARD -->
+
+<section class="admin-panel" id="adminPanel">
+
+    <div class="section-header">
+        <div>
+            <h2>🛡️ Admin Control Center</h2>
+            <p style="color:#64748b;margin-top:5px;">Manage student access, subjects and portal announcements.</p>
+        </div>
+    </div>
+
+    <div class="admin-grid">
+        <div class="admin-card">
+            <h2>📢 Portal Announcement</h2>
+            <form class="admin-form" onsubmit="saveAnnouncement(event)">
+                <input id="announcementInput" maxlength="160" placeholder="Write an announcement for students">
+                <button class="admin-action" type="submit">Save Announcement</button>
+            </form>
+            <p id="announcementStatus" class="auth-message"></p>
+        </div>
+
+        <div class="admin-card">
+            <h2>📚 Add Subject</h2>
+            <form class="admin-form" onsubmit="addSubject(event)">
+                <input id="adminSubjectName" placeholder="Subject name" required>
+                <select id="adminSubjectSemester" required>
+                    <option value="">Select semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                </select>
+                <button class="admin-action" type="submit">Add Subject</button>
+            </form>
+        </div>
+
+        <div class="admin-card">
+            <h2>📝 Manage Syllabus</h2>
+            <form class="admin-form" onsubmit="saveSubjectSyllabus(event)">
+                <select id="syllabusSubject" onchange="loadSubjectSyllabus()" required>
+                    <option value="">Select subject</option>
+                </select>
+                <label for="syllabusPdf"><strong>📄 Syllabus PDF</strong></label>
+                <input type="file" id="syllabusPdf" accept="application/pdf">
+                <small id="syllabusPdfStatus">No syllabus PDF selected.</small>
+                <button class="admin-action" type="submit">Save Syllabus</button>
+            </form>
+            <p id="syllabusStatus" class="auth-message"></p>
+        </div>
+
+        <div class="admin-card">
+            <h2>📖 Manage Study Resources</h2>
+            <form class="admin-form resource-editor" onsubmit="saveSubjectResources(event)">
+                <select id="resourceSubject" onchange="loadSubjectResources()" required>
+                    <option value="">Select subject</option>
+                </select>
+                <div class="syllabus-section-row">
+                    <strong>📖 Chapter-wise Notes by Unit</strong>
+                    <strong>1) Unit 1</strong>
+                    <textarea id="chapterNotesUnit1" placeholder="Unit 1 notes"></textarea>
+                    <label for="chapterNotesUnit1Pdf"><strong>📄 Unit 1 PDF</strong></label>
+                    <input type="file" id="chapterNotesUnit1Pdf" accept="application/pdf">
+                    <small id="chapterNotesUnit1PdfStatus">No Unit 1 PDF selected.</small>
+                    <strong>2) Unit 2</strong>
+                    <textarea id="chapterNotesUnit2" placeholder="Unit 2 notes"></textarea>
+                    <label for="chapterNotesUnit2Pdf"><strong>📄 Unit 2 PDF</strong></label>
+                    <input type="file" id="chapterNotesUnit2Pdf" accept="application/pdf">
+                    <small id="chapterNotesUnit2PdfStatus">No Unit 2 PDF selected.</small>
+                    <strong>3) Unit 3</strong>
+                    <textarea id="chapterNotesUnit3" placeholder="Unit 3 notes"></textarea>
+                    <label for="chapterNotesUnit3Pdf"><strong>📄 Unit 3 PDF</strong></label>
+                    <input type="file" id="chapterNotesUnit3Pdf" accept="application/pdf">
+                    <small id="chapterNotesUnit3PdfStatus">No Unit 3 PDF selected.</small>
+                    <strong>4) Unit 4</strong>
+                    <textarea id="chapterNotesUnit4" placeholder="Unit 4 notes"></textarea>
+                    <label for="chapterNotesUnit4Pdf"><strong>📄 Unit 4 PDF</strong></label>
+                    <input type="file" id="chapterNotesUnit4Pdf" accept="application/pdf">
+                    <small id="chapterNotesUnit4PdfStatus">No Unit 4 PDF selected.</small>
+                    <strong>5) Unit 5</strong>
+                    <textarea id="chapterNotesUnit5" placeholder="Unit 5 notes"></textarea>
+                    <label for="chapterNotesUnit5Pdf"><strong>📄 Unit 5 PDF</strong></label>
+                    <input type="file" id="chapterNotesUnit5Pdf" accept="application/pdf">
+                    <small id="chapterNotesUnit5PdfStatus">No Unit 5 PDF selected.</small>
+                </div>
+                <textarea id="importantQuestions" placeholder="Important Questions"></textarea>
+                <label for="importantQuestionsPdf"><strong>📄 Important Questions PDF</strong></label>
+                <input type="file" id="importantQuestionsPdf" accept="application/pdf">
+                <small id="importantQuestionsPdfStatus">No important questions PDF selected.</small>
+                <textarea id="mcqPractice" placeholder="MCQ Practice questions and answers"></textarea>
+                <label for="mcqPracticePdf"><strong>📄 MCQ Practice PDF</strong></label>
+                <input type="file" id="mcqPracticePdf" accept="application/pdf">
+                <small id="mcqPracticePdfStatus">No MCQ practice PDF selected.</small>
+                <textarea id="previousQuestions" placeholder="Previous Year Questions"></textarea>
+                <label for="previousQuestionsPdf"><strong>📄 Previous Year Questions PDF</strong></label>
+                <input type="file" id="previousQuestionsPdf" accept="application/pdf">
+                <small id="previousQuestionsPdfStatus">No previous year questions PDF selected.</small>
+                <textarea id="modelAnswers" placeholder="Model Answers"></textarea>
+                <label for="modelAnswersPdf"><strong>📄 Model Answers PDF</strong></label>
+                <input type="file" id="modelAnswersPdf" accept="application/pdf">
+                <small id="modelAnswersPdfStatus">No model answers PDF selected.</small>
+                <textarea id="manualAnswerKey" placeholder="Manual Answer Key"></textarea>
+                <label for="manualAnswerKeyPdf"><strong>📄 Manual Answer Key PDF</strong></label>
+                <input type="file" id="manualAnswerKeyPdf" accept="application/pdf">
+                <small id="manualAnswerKeyPdfStatus">No manual answer key PDF selected.</small>
+                <input type="url" id="videoLectureUrl" placeholder="Video Lecture URL (YouTube, Vimeo, etc.)">
+                <button class="admin-action" type="submit">Save Study Resources</button>
+            </form>
+            <p id="resourceStatus" class="auth-message"></p>
+        </div>
+
+        <div class="admin-card">
+            <h2>👥 Student Accounts (<span id="studentCount">0</span>)</h2>
+            <div class="admin-list" id="studentList"></div>
+        </div>
+
+        <div class="admin-card">
+            <h2>🗂️ Subjects (<span id="subjectCount">0</span>)</h2>
+            <div class="admin-list" id="adminSubjectList"></div>
+        </div>
+    </div>
+</section>
+
+
+<footer>
+
+    <h2>⚙️ Mechanical Department Student Academic Year</h2>
+
+    <p>
+        Learn • Practice • Revise • Succeed
+    </p>
+
+    <p>
+        © 2026 Mechanical Department Student Academic Year
+    </p>
+
+</footer>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const SUPABASE_URL="https://reudthheqsjeuhgindgo.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_R6wblmLhixFy0Ct5zO0YwQ_xepPguj6";
+const SUPABASE_BUCKET="portal-files";
+const supabaseStorageClient=SUPABASE_URL.startsWith("http") && !SUPABASE_ANON_KEY.startsWith("PASTE_")
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+/* =====================================================
+   SUBJECT DATABASE
+===================================================== */
+
+const subjects = [
+
+{
+    id:1,
+    name:"Basic Mathematics",
+    icon:"📐",
+    semester:1,
+    progress:20
+},
+
+{
+    id:2,
+    name:"Communication Skills (English)",
+    icon:"🗣️",
+    semester:1,
+    progress:15
+},
+
+{
+    id:3,
+    name:"Basic Science – Physics",
+    icon:"⚛️",
+    semester:1,
+    progress:10
+},
+
+{
+    id:4,
+    name:"Applied Mathematics",
+    icon:"📊",
+    semester:2,
+    progress:25
+},
+
+{
+    id:5,
+    name:"Applied Science – Physics & Chemistry",
+    icon:"🧪",
+    semester:2,
+    progress:20
+},
+
+{
+    id:6,
+    name:"Engineering Drawing",
+    icon:"📐",
+    semester:2,
+    progress:30
+},
+
+{
+    id:7,
+    name:"Engineering Mechanics",
+    icon:"⚙️",
+    semester:2,
+    progress:35
+},
+
+{
+    id:8,
+    name:"Manufacturing Technology",
+    icon:"🏭",
+    semester:3,
+    progress:30
+},
+
+{
+    id:9,
+    name:"Strength of Materials",
+    icon:"💪",
+    semester:3,
+    progress:40
+},
+
+{
+    id:10,
+    name:"Fluid Mechanics and Machinery",
+    icon:"🌊",
+    semester:3,
+    progress:25
+},
+
+{
+    id:11,
+    name:"Thermal Engineering",
+    icon:"🔥",
+    semester:3,
+    progress:35
+},
+
+{
+    id:12,
+    name:"Production Drawing",
+    icon:"📏",
+    semester:3,
+    progress:20
+},
+
+{
+    id:13,
+    name:"Environmental Education and Sustainability",
+    icon:"🌱",
+    semester:3,
+    progress:15
+},
+
+{
+    id:14,
+    name:"Theory of Machines",
+    icon:"⚙️",
+    semester:4,
+    progress:30
+},
+
+{
+    id:15,
+    name:"Metrology and Measurement",
+    icon:"📏",
+    semester:4,
+    progress:45
+},
+
+{
+    id:16,
+    name:"Mechanical Engineering Materials",
+    icon:"🔩",
+    semester:4,
+    progress:35
+},
+
+{
+    id:17,
+    name:"Production Processes",
+    icon:"🏗️",
+    semester:4,
+    progress:30
+},
+
+{
+    id:18,
+    name:"Emerging Trends in Mechanical Engineering",
+    icon:"🤖",
+    semester:4,
+    progress:15
+},
+
+{
+    id:19,
+    name:"Power Engineering",
+    icon:"⚡",
+    semester:5,
+    progress:20
+},
+
+{
+    id:20,
+    name:"Automobile Engineering",
+    icon:"🚗",
+    semester:5,
+    progress:35
+},
+
+{
+    id:21,
+    name:"Power Plant Engineering",
+    icon:"🏭",
+    semester:5,
+    progress:20
+},
+
+{
+    id:22,
+    name:"Management",
+    icon:"📋",
+    semester:5,
+    progress:25
+},
+
+{
+    id:23,
+    name:"Design of Machine Elements",
+    icon:"🔧",
+    semester:6,
+    progress:40
+},
+
+{
+    id:24,
+    name:"Industrial Engineering and Quality Control",
+    icon:"📈",
+    semester:6,
+    progress:30
+},
+
+{
+    id:25,
+    name:"Industrial Hydraulics and Pneumatics",
+    icon:"💨",
+    semester:6,
+    progress:25
+}
+
+];
+
+function loadPortalSubjects(){
+
+    const savedSubjects=JSON.parse(localStorage.getItem("portalSubjects")) || [];
+    const savedById=new Map(savedSubjects.map(subject => [subject.id, subject]));
+    const defaultSubjects=subjects.map(subject => ({
+        ...subject,
+        ...(savedById.get(subject.id) || {})
+    }));
+    const defaultIds=new Set(subjects.map(subject => subject.id));
+    const customSubjects=savedSubjects.filter(subject => !defaultIds.has(subject.id));
+    const mergedSubjects=[...defaultSubjects, ...customSubjects];
+
+    localStorage.setItem("portalSubjects", JSON.stringify(mergedSubjects));
+    return mergedSubjects;
+}
+
+async function loadSharedSubjects(){
+    if(!supabaseStorageClient) return portalSubjects;
+    const result=await supabaseStorageClient.from("portal_subjects").select("subject");
+    if(result.error || !result.data || !result.data.length) return portalSubjects;
+    const sharedById=new Map(result.data.map(row => [Number(row.subject.id), row.subject]));
+    portalSubjects=portalSubjects.map(subject => sharedById.get(Number(subject.id)) || subject);
+    const localIds=new Set(portalSubjects.map(subject => Number(subject.id)));
+    result.data.forEach(row => {
+        if(!localIds.has(Number(row.subject.id))) portalSubjects.push(row.subject);
+    });
+    localStorage.setItem("portalSubjects", JSON.stringify(portalSubjects));
+    return portalSubjects;
+}
+
+async function saveSharedSubject(subject){
+    if(!supabaseStorageClient) return;
+    const result=await supabaseStorageClient.from("portal_subjects").upsert({id:Number(subject.id), subject:subject, updated_at:new Date().toISOString()});
+    if(result.error) throw result.error;
+}
+
+let portalSubjects=loadPortalSubjects();
+
+let activeSubjectId=null;
+let signupCaptchaCode="";
+
+
+/* =====================================================
+   AUTH FUNCTIONS
+===================================================== */
+
+function showLogin(){
+
+    document.getElementById("loginForm").style.display="block";
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("adminLoginForm").style.display="none";
+    document.getElementById("forgotPasswordForm").style.display="none";
+    document.getElementById("verifyOtpForm").style.display="none";
+
+    document.getElementById("loginTab").classList.add("active");
+    document.getElementById("registerTab").classList.remove("active");
+    document.getElementById("adminTab").classList.remove("active");
+
+    clearMessages();
+}
+
+
+function showRegister(){
+
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("registerForm").style.display="block";
+    document.getElementById("adminLoginForm").style.display="none";
+    document.getElementById("forgotPasswordForm").style.display="none";
+    document.getElementById("verifyOtpForm").style.display="none";
+
+    document.getElementById("loginTab").classList.remove("active");
+    document.getElementById("registerTab").classList.add("active");
+    document.getElementById("adminTab").classList.remove("active");
+
+    refreshSignupCaptcha();
+    clearMessages();
+}
+
+function showAdminLogin(){
+
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("adminLoginForm").style.display="block";
+    document.getElementById("forgotPasswordForm").style.display="none";
+    document.getElementById("verifyOtpForm").style.display="none";
+
+    document.getElementById("loginTab").classList.remove("active");
+    document.getElementById("registerTab").classList.remove("active");
+    document.getElementById("adminTab").classList.add("active");
+
+    clearMessages();
+}
+
+function showForgotPassword(){
+
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("adminLoginForm").style.display="none";
+    document.getElementById("forgotPasswordForm").style.display="block";
+    document.getElementById("verifyOtpForm").style.display="none";
+    document.querySelectorAll(".auth-tab").forEach(tab => tab.classList.remove("active"));
+    clearMessages();
+}
+
+
+function clearMessages(){
+
+    document.getElementById("loginMessage").innerText="";
+    document.getElementById("registerMessage").innerText="";
+    document.getElementById("adminMessage").innerText="";
+    document.getElementById("forgotMessage").innerText="";
+    document.getElementById("verifyMessage").innerText="";
+
+}
+
+function getStudentToolsKey(){
+
+    const student=JSON.parse(localStorage.getItem("currentStudent"));
+    return student ? student.email : "guest";
+}
+
+function calculateForce(){
+
+    const mass=Number(document.getElementById("forceMass").value);
+    const acceleration=Number(document.getElementById("forceAcceleration").value);
+    const result=document.getElementById("forceResult");
+
+    if(mass <= 0 || acceleration < 0){
+        result.innerText="Enter a valid mass and acceleration.";
+        return;
+    }
+
+    result.innerText="Force = " + (mass * acceleration).toFixed(2) + " N";
+}
+
+function calculateGearSpeed(){
+
+    const rpm=Number(document.getElementById("gearRpm").value);
+    const driver=Number(document.getElementById("gearDriver").value);
+    const driven=Number(document.getElementById("gearDriven").value);
+    const result=document.getElementById("gearResult");
+
+    if(rpm <= 0 || driver <= 0 || driven <= 0){
+        result.innerText="Enter valid RPM and tooth counts.";
+        return;
+    }
+
+    result.innerText="Driven gear speed = " + (rpm * driver / driven).toFixed(2) + " RPM";
+}
+
+function convertMillimeters(){
+
+    const millimeters=Number(document.getElementById("millimeters").value);
+    const result=document.getElementById("lengthResult");
+
+    if(millimeters < 0){
+        result.innerText="Enter a valid length.";
+        return;
+    }
+
+    result.innerText=millimeters + " mm = " + (millimeters / 1000).toFixed(3) + " m = " + (millimeters / 25.4).toFixed(3) + " in";
+}
+
+function loadDailyChallenge(){
+
+    const challenges=[
+        ["Why is a flywheel used in an engine?", "It stores rotational energy and smooths speed fluctuations between power strokes."],
+        ["What does CNC stand for?", "Computer Numerical Control, where programmed instructions control machine tool movement."],
+        ["CNC challenge: Write code to move to X10 Y10, then cut a straight line to X50 Y10 at feed rate 100.", "G21 G90 G17\nG00 X10 Y10\nG01 X50 Y10 F100\nM30\n\nG21 = millimetres, G90 = absolute positioning, G00 = rapid move, G01 = controlled cutting move, M30 = program end."],
+        ["CNC challenge: What does this drilling code do?\nG21 G90\nG00 X20 Y20\nG81 Z-5 R2 F80\nG80\nM30", "It selects millimetres and absolute positioning, moves to X20 Y20, drills to 5 mm depth with a 2 mm retract plane at feed 80, cancels the drilling cycle, and ends the program."],
+        ["CNC challenge: Complete a safe spindle start line for clockwise cutting at 1200 RPM.", "S1200 M03\n\nS1200 sets spindle speed to 1200 RPM and M03 starts clockwise spindle rotation. Always verify tool offset, work offset and machine simulation before running code."],
+        ["Why is lubrication important?", "It reduces friction and wear, carries away heat, and protects surfaces from corrosion."],
+        ["What is the purpose of a vernier caliper?", "It measures outside, inside and depth dimensions more accurately than a regular rule."],
+        ["What is the difference between stress and strain?", "Stress is force per unit area; strain is the resulting deformation divided by original length."]
+    ];
+    const day=Math.floor(Date.now() / 86400000);
+    const challenge=challenges[day % challenges.length];
+    document.getElementById("dailyChallengeQuestion").innerText=challenge[0];
+    document.getElementById("dailyChallengeAnswer").innerText=challenge[1];
+    document.getElementById("dailyChallengeAnswer").style.display="none";
+}
+
+function showDailyAnswer(){
+
+    document.getElementById("dailyChallengeAnswer").style.display="block";
+}
+
+function checkCncCode(){
+
+    const editor=document.getElementById("cncCode");
+    const result=document.getElementById("cncResult");
+    const code=editor.value.trim();
+
+    if(!code){
+        result.innerText="Not ready: write some CNC code first.";
+        return;
+    }
+
+    const lines=code.split(/\r?\n/);
+    const errors=[];
+    const warnings=[];
+    let hasMotion=false;
+    let hasProgramEnd=false;
+    let hasFeed=false;
+
+    lines.forEach((line, index) => {
+        const lineNumber=index + 1;
+        const withoutComments=line.replace(/\([^)]*\)/g, "").replace(/;.*$/, "").trim().toUpperCase();
+
+        if(!withoutComments){
+            return;
+        }
+
+        if(!/^(?:%\s*)?(?:N\d+\s*)?(?:(?:G|M)\d+(?:\.\d+)?|[XYZIJKFSTHPQR][-+]?\d*\.?\d+|\s|%)+$/.test(withoutComments)){
+            errors.push("Line " + lineNumber + ": contains an unsupported character or word.");
+        }
+
+        if(/\bG0(?:0)?\b|\bG0?1\b|\bG0?2\b|\bG0?3\b/.test(withoutComments)){
+            hasMotion=true;
+        }
+
+        if(/\bF[-+]?\d*\.?\d+/.test(withoutComments)){
+            hasFeed=true;
+        }
+
+        if(/\bM0?2\b|\bM30\b/.test(withoutComments)){
+            hasProgramEnd=true;
+        }
+
+        if(/\bG0?1\b|\bG0?2\b|\bG0?3\b/.test(withoutComments) && !/\b[XYZ][-+]?\d*\.?\d+/.test(withoutComments)){
+            warnings.push("Line " + lineNumber + ": cutting motion has no X, Y or Z coordinate.");
+        }
+    });
+
+    if(!hasMotion){
+        warnings.push("No movement command found. Add G00, G01, G02 or G03 to test a toolpath.");
+    }
+
+    if(!hasFeed){
+        warnings.push("No feed rate found. Add an F value before cutting motion when required by your machine.");
+    }
+
+    if(!hasProgramEnd){
+        warnings.push("No M02 or M30 program end found.");
+    }
+
+    if(errors.length){
+        result.innerText="Not ready: " + errors.join(" ");
+    }else if(warnings.length){
+        result.innerText="Syntax looks valid, but check these warnings: " + warnings.join(" ");
+    }else{
+        result.innerText="Code looks valid for this basic checker. Simulate it and verify offsets, tools and machine limits before running it.";
+    }
+}
+
+function initStudentTools(){
+
+    loadDailyChallenge();
+}
+
+function refreshSignupCaptcha(){
+
+    const characters="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    signupCaptchaCode=Array.from({length:6}, () =>
+        characters[Math.floor(Math.random() * characters.length)]
+    ).join("");
+
+    document.getElementById("signupCaptchaCode").innerText=signupCaptchaCode;
+    document.getElementById("signupCaptchaInput").value="";
+}
+
+
+/* =====================================================
+   PASSWORD SHOW / HIDE
+===================================================== */
+
+function togglePassword(inputId,eyeId){
+
+    const input=document.getElementById(inputId);
+    const eye=document.getElementById(eyeId);
+
+    if(input.type==="password"){
+
+        input.type="text";
+        eye.innerText="🙈";
+
+    }else{
+
+        input.type="password";
+        eye.innerText="👁️";
+
+    }
+
+}
+
+
+/* =====================================================
+   REGISTER STUDENT
+===================================================== */
+
+function registerStudent(event){
+
+    event.preventDefault();
+
+    const name=
+        document.getElementById("regName").value.trim();
+
+    const email=
+        document.getElementById("regEmail").value.trim().toLowerCase();
+
+    const mobile=
+        document.getElementById("regMobile").value.trim();
+
+    const captchaInput=
+        document.getElementById("signupCaptchaInput").value.trim().toUpperCase();
+
+    const branch=
+        document.getElementById("regBranch").value;
+
+    const semester=
+        document.getElementById("regSemester").value;
+
+    const password=
+        document.getElementById("regPassword").value;
+
+    const confirmPassword=
+        document.getElementById("regConfirmPassword").value;
+
+    const message=
+        document.getElementById("registerMessage");
+
+
+    /* VALIDATION */
+
+    if(name.length < 2){
+
+        showRegisterError(
+            "Please enter a valid student name."
+        );
+
+        return;
+
+    }
+
+
+    const emailPattern=
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(!emailPattern.test(email)){
+
+        showRegisterError(
+            "Please enter a valid email address."
+        );
+
+        return;
+
+    }
+
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        showRegisterError(
+            "Mobile number must contain exactly 10 digits."
+        );
+
+        return;
+
+    }
+
+
+    if(captchaInput !== signupCaptchaCode){
+
+        showRegisterError(
+            "Verification code is incorrect. Please try again."
+        );
+
+        refreshSignupCaptcha();
+        return;
+
+    }
+
+
+    if(!branch){
+
+        showRegisterError(
+            "Please select your diploma branch."
+        );
+
+        return;
+
+    }
+
+
+    if(!semester){
+
+        showRegisterError(
+            "Please select your semester."
+        );
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        showRegisterError(
+            "Password must contain at least 6 characters."
+        );
+
+        return;
+
+    }
+
+
+    if(password !== confirmPassword){
+
+        showRegisterError(
+            "Password and confirm password do not match."
+        );
+
+        return;
+
+    }
+
+
+    /* GET OLD STUDENTS */
+
+    let students=
+        JSON.parse(
+            localStorage.getItem("mechanicalStudents")
+        ) || [];
+
+
+    /* CHECK DUPLICATE EMAIL */
+
+    const existing=
+        students.find(
+            student => student.email === email
+        );
+
+
+    if(existing){
+
+        showRegisterError(
+            "An account with this email already exists."
+        );
+
+        return;
+
+    }
+
+
+    const duplicate=students.find(
+        student => student.email === email || student.mobile === mobile
+    );
+
+    if(duplicate){
+
+        showRegisterError(
+            duplicate.email === email
+                ? "An account with this email already exists."
+                : "An account with this phone number already exists."
+        );
+
+        return;
+
+    }
+
+    const student={
+        id:Date.now(),
+        name:name,
+        email:email,
+        mobile:mobile,
+        branch:branch,
+        semester:semester,
+        password:password
+    };
+
+    students.push(student);
+    localStorage.setItem("mechanicalStudents", JSON.stringify(students));
+    document.getElementById("registerForm").reset();
+    showLogin();
+    document.getElementById("loginEmail").value=student.email;
+    document.getElementById("loginMessage").className="auth-message success";
+    document.getElementById("loginMessage").innerText="✅ Account created successfully. You can now login.";
+
+}
+
+
+function showRegisterError(text){
+
+    const message=
+        document.getElementById("registerMessage");
+
+    message.className=
+        "auth-message error";
+
+    message.innerText=
+        "❌ "+text;
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function loginStudent(event){
+
+    event.preventDefault();
+
+    const email=
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const password=
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+    const students=
+        JSON.parse(
+            localStorage.getItem("mechanicalStudents")
+        ) || [];
+
+
+    const student=
+        students.find(
+            s =>
+            s.email===email &&
+            s.password===password
+        );
+
+
+    if(!student){
+
+        const message=
+            document.getElementById("loginMessage");
+
+        message.className=
+            "auth-message error";
+
+        message.innerText=
+            "❌ Invalid email or password.";
+
+        return;
+
+    }
+
+
+    /* SAVE CURRENT LOGIN */
+
+    localStorage.setItem(
+        "currentStudent",
+        JSON.stringify(student)
+    );
+
+
+    openPortal(student);
+
+}
+
+function loginAdmin(event){
+
+    event.preventDefault();
+
+    const email=document.getElementById("adminEmail").value.trim().toLowerCase();
+    const password=document.getElementById("adminPassword").value;
+    const message=document.getElementById("adminMessage");
+
+    if(email !== "admin@college.com" || password !== "admin123"){
+        message.className="auth-message error";
+        message.innerText="❌ Invalid admin email or password.";
+        return;
+    }
+
+    localStorage.setItem("currentAdmin", JSON.stringify({email:email, role:"admin"}));
+    openAdminPortal();
+}
+
+function isAdminSession(){
+
+    const admin=JSON.parse(localStorage.getItem("currentAdmin"));
+    return Boolean(admin && admin.role === "admin");
+}
+
+function requireAdmin(){
+
+    if(isAdminSession()) return true;
+
+    alert("Only the administrator can manage portal content.");
+    return false;
+}
+
+function requestPasswordOtp(event){
+
+    event.preventDefault();
+
+    const email=document.getElementById("forgotEmail").value.trim().toLowerCase();
+    const mobile=document.getElementById("forgotMobile").value.trim();
+    const message=document.getElementById("forgotMessage");
+    const students=JSON.parse(localStorage.getItem("mechanicalStudents")) || [];
+    const student=students.find(account => account.email === email && account.mobile === mobile);
+
+    if(!student){
+        message.className="auth-message error";
+        message.innerText="❌ Email and phone number do not match a student account.";
+        return;
+    }
+
+    const otp=String(Math.floor(100000 + Math.random() * 900000));
+    localStorage.setItem("passwordRecovery", JSON.stringify({
+        studentId:student.id,
+        email:email,
+        otp:otp,
+        expiresAt:Date.now() + 10 * 60 * 1000
+    }));
+
+    document.getElementById("forgotPasswordForm").style.display="none";
+    document.getElementById("verifyOtpForm").style.display="block";
+    document.getElementById("verifyMessage").className="auth-message success";
+    document.getElementById("verifyMessage").innerText="✅ OTP sent to the registered email and phone number. Demo OTP: " + otp;
+}
+
+function verifyPasswordOtp(event){
+
+    event.preventDefault();
+
+    const recovery=JSON.parse(localStorage.getItem("passwordRecovery"));
+    const otp=document.getElementById("forgotOtp").value.trim();
+    const password=document.getElementById("newPassword").value;
+    const confirmPassword=document.getElementById("confirmNewPassword").value;
+    const message=document.getElementById("verifyMessage");
+
+    if(!recovery || Date.now() > recovery.expiresAt){
+        message.className="auth-message error";
+        message.innerText="❌ This OTP has expired. Request a new OTP.";
+        localStorage.removeItem("passwordRecovery");
+        return;
+    }
+
+    if(otp !== recovery.otp){
+        message.className="auth-message error";
+        message.innerText="❌ Invalid OTP.";
+        return;
+    }
+
+    if(password.length < 6 || password !== confirmPassword){
+        message.className="auth-message error";
+        message.innerText="❌ Passwords must match and contain at least 6 characters.";
+        return;
+    }
+
+    const students=JSON.parse(localStorage.getItem("mechanicalStudents")) || [];
+    const student=students.find(account => account.id === recovery.studentId);
+
+    if(!student){
+        message.className="auth-message error";
+        message.innerText="❌ Student account no longer exists.";
+        return;
+    }
+
+    student.password=password;
+    localStorage.setItem("mechanicalStudents", JSON.stringify(students));
+    localStorage.removeItem("passwordRecovery");
+    document.getElementById("verifyOtpForm").reset();
+    showLogin();
+    document.getElementById("loginEmail").value=recovery.email;
+    document.getElementById("loginMessage").className="auth-message success";
+    document.getElementById("loginMessage").innerText="✅ Password reset successfully. Please login.";
+}
+
+
+/* =====================================================
+   OPEN PORTAL
+===================================================== */
+
+async function openPortal(student){
+
+    document.getElementById("authScreen").style.display="none";
+
+    document.getElementById("portal").style.display="block";
+    document.getElementById("adminPanel").style.display="none";
+    document.querySelectorAll(".student-only").forEach(element => element.style.display="");
+    document.getElementById("studentProfileButton").style.display="";
+    document.getElementById("studentLogoutButton").style.display="";
+    document.getElementById("adminLogoutButton").style.display="none";
+
+
+    document.getElementById("headerStudentName").innerText=
+        "👤 "+student.name;
+
+
+    document.getElementById("welcomeName").innerText=
+        student.name;
+
+
+    document.getElementById("welcomeDetails").innerText=
+        student.branch+
+        " • Semester "+
+        student.semester+
+        (localStorage.getItem("portalAnnouncement") ? " • " + localStorage.getItem("portalAnnouncement") : "");
+
+
+    portalSubjects=loadPortalSubjects();
+    await loadSharedSubjects();
+    displaySubjects(portalSubjects);
+    initStudentTools();
+
+}
+
+async function openAdminPortal(){
+
+    if(!isAdminSession()){
+        showLogin();
+        return;
+    }
+
+    document.getElementById("authScreen").style.display="none";
+    document.getElementById("portal").style.display="block";
+    document.querySelectorAll(".student-only").forEach(element => element.style.display="none");
+    document.getElementById("adminPanel").style.display="block";
+    document.getElementById("studentProfileButton").style.display="none";
+    document.getElementById("studentLogoutButton").style.display="none";
+    document.getElementById("adminLogoutButton").style.display="inline-block";
+    document.getElementById("headerStudentName").innerText="🛡️ Administrator";
+    await loadSharedSubjects();
+    renderAdminPanel();
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logoutStudent(){
+
+    localStorage.removeItem("currentStudent");
+
+    document.getElementById("portal").style.display="none";
+
+    document.getElementById("authScreen").style.display="flex";
+
+    document.getElementById("loginForm").reset();
+
+    closeProfile();
+
+    showLogin();
+
+}
+
+function logoutAdmin(){
+
+    localStorage.removeItem("currentAdmin");
+    document.getElementById("portal").style.display="none";
+    document.getElementById("authScreen").style.display="flex";
+    document.getElementById("adminLoginForm").reset();
+    showLogin();
+}
+
+function renderAdminPanel(){
+
+    if(!requireAdmin()) return;
+
+    portalSubjects=loadPortalSubjects();
+    const students=JSON.parse(localStorage.getItem("mechanicalStudents")) || [];
+    document.getElementById("studentCount").innerText=students.length;
+    document.getElementById("subjectCount").innerText=portalSubjects.length;
+    document.getElementById("announcementInput").value=localStorage.getItem("portalAnnouncement") || "";
+
+    document.getElementById("syllabusSubject").innerHTML=
+        '<option value="">Select subject</option>'+
+        portalSubjects.map(subject =>
+            `<option value="${subject.id}">${subject.name}</option>`
+        ).join("");
+
+    document.getElementById("syllabusSubject").value="";
+
+    document.getElementById("resourceSubject").innerHTML=
+        '<option value="">Select subject</option>'+
+        portalSubjects.map(subject =>
+            `<option value="${subject.id}">${subject.name}</option>`
+        ).join("");
+    document.getElementById("resourceSubject").value="";
+    clearResourceFields();
+
+    document.getElementById("studentList").innerHTML=students.length ? students.map(student => {
+        return `
+            <div class="admin-list-item">
+                <span>${student.name}<small>${student.email} • Semester ${student.semester}</small></span>
+                <button class="admin-action danger" type="button" onclick="deleteStudent(${student.id})">Remove</button>
+            </div>
+        `;
+    }).join("") : "<p>No student accounts registered.</p>";
+
+    document.getElementById("adminSubjectList").innerHTML=portalSubjects.map(subject => `
+        <div class="admin-list-item">
+            <span>${subject.icon} ${subject.name}<small>Semester ${subject.semester}</small></span>
+            <button class="admin-action" type="button" disabled>Protected</button>
+        </div>
+    `).join("");
+}
+
+function deleteStudent(id){
+
+    if(!requireAdmin()) return;
+    if(!confirm("Remove this student account? This action cannot be undone.")) return;
+
+    const students=JSON.parse(localStorage.getItem("mechanicalStudents")) || [];
+    localStorage.setItem("mechanicalStudents", JSON.stringify(students.filter(student => student.id !== id)));
+    renderAdminPanel();
+}
+
+function addSubject(event){
+
+    event.preventDefault();
+
+    if(!requireAdmin()) return;
+
+    portalSubjects.push({
+        id:Date.now(),
+        name:document.getElementById("adminSubjectName").value.trim(),
+        icon:"📚",
+        semester:Number(document.getElementById("adminSubjectSemester").value),
+        progress:0,
+        syllabus:""
+    });
+
+    localStorage.setItem("portalSubjects", JSON.stringify(portalSubjects));
+    saveSharedSubject(portalSubjects[portalSubjects.length - 1]).catch(error => console.error("Subject sync failed:", error));
+    event.target.reset();
+    renderAdminPanel();
+    displaySubjects(portalSubjects);
+}
+
+function deleteSubject(id){
+
+    if(!requireAdmin()) return;
+    alert("Subject data and uploaded files are protected and cannot be deleted.");
+}
+
+function loadSubjectSyllabus(){
+
+    const subject=portalSubjects.find(item => item.id === Number(document.getElementById("syllabusSubject").value));
+    document.getElementById("syllabusPdf").value="";
+    document.getElementById("syllabusPdfStatus").innerText=subject && subject.syllabusPdfName
+        ? "Saved PDF: " + subject.syllabusPdfName
+        : "No syllabus PDF selected.";
+}
+
+function addSyllabusSection(title="", content=""){
+
+    const sectionNumber=document.querySelectorAll(".syllabus-section-row").length + 1;
+    const row=document.createElement("div");
+    row.className="syllabus-section-row";
+    row.innerHTML=`
+        <input class="syllabus-section-title" placeholder="Section title, e.g. Unit ${sectionNumber}" value="${escapeHtml(title)}" required>
+        <textarea class="syllabus-section-content" placeholder="Chapters and topics in this section" rows="4" required>${escapeHtml(content)}</textarea>
+        <button class="admin-action danger" type="button" onclick="this.parentElement.remove()">Remove Section</button>
+    `;
+    document.getElementById("syllabusSections").appendChild(row);
+}
+
+async function saveSubjectSyllabus(event){
+
+    event.preventDefault();
+
+    if(!requireAdmin()) return;
+
+    const subject=portalSubjects.find(item => item.id === Number(document.getElementById("syllabusSubject").value));
+
+    if(!subject) return;
+
+    const selectedPdf=document.getElementById("syllabusPdf").files[0];
+    let syllabusPdf=subject.syllabusPdf || "";
+    let syllabusPdfName=subject.syllabusPdfName || "";
+
+    if(selectedPdf){
+
+        if(selectedPdf.type !== "application/pdf"){
+            document.getElementById("syllabusStatus").className="auth-message error";
+            document.getElementById("syllabusStatus").innerText="Please select a PDF file.";
+            return;
+        }
+
+        if(selectedPdf.size > 1024 * 1024 * 1024){
+            document.getElementById("syllabusStatus").className="auth-message error";
+            document.getElementById("syllabusStatus").innerText="Syllabus PDF must be smaller than 1 GB.";
+            return;
+        }
+
+        syllabusPdf=await saveSubjectPdf(subject.id, selectedPdf);
+        syllabusPdfName=selectedPdf.name;
+    }
+
+    if(!selectedPdf && !syllabusPdf){
+        document.getElementById("syllabusStatus").className="auth-message error";
+        document.getElementById("syllabusStatus").innerText="Please upload a syllabus PDF for the selected subject.";
+        return;
+    }
+
+    subject.syllabusPdf=syllabusPdf;
+    subject.syllabusPdfName=syllabusPdfName;
+
+    try{
+        localStorage.setItem("portalSubjects", JSON.stringify(portalSubjects));
+        await saveSharedSubject(subject);
+        document.getElementById("syllabusStatus").className="auth-message success";
+        document.getElementById("syllabusStatus").innerText="Syllabus saved for " + subject.name + ".";
+        document.getElementById("syllabusPdfStatus").innerText=syllabusPdfName
+            ? "Saved PDF: " + syllabusPdfName
+            : "No syllabus PDF selected.";
+    }catch(error){
+        document.getElementById("syllabusStatus").className="auth-message error";
+        document.getElementById("syllabusStatus").innerText="PDF is too large for browser storage. Try a smaller file.";
+    }
+}
+
+function clearResourceFields(){
+
+    ["chapterNotesUnit1", "chapterNotesUnit2", "chapterNotesUnit3", "chapterNotesUnit4", "chapterNotesUnit5", "importantQuestions", "mcqPractice", "previousQuestions", "modelAnswers", "manualAnswerKey"]
+        .forEach(id => document.getElementById(id).value="");
+    [
+        ["chapterNotesUnit1Pdf", "chapterNotesUnit1PdfStatus", "No Unit 1 PDF selected."],
+        ["chapterNotesUnit2Pdf", "chapterNotesUnit2PdfStatus", "No Unit 2 PDF selected."],
+        ["chapterNotesUnit3Pdf", "chapterNotesUnit3PdfStatus", "No Unit 3 PDF selected."],
+        ["chapterNotesUnit4Pdf", "chapterNotesUnit4PdfStatus", "No Unit 4 PDF selected."],
+        ["chapterNotesUnit5Pdf", "chapterNotesUnit5PdfStatus", "No Unit 5 PDF selected."],
+        ["importantQuestionsPdf", "importantQuestionsPdfStatus", "No important questions PDF selected."],
+        ["mcqPracticePdf", "mcqPracticePdfStatus", "No MCQ practice PDF selected."],
+        ["previousQuestionsPdf", "previousQuestionsPdfStatus", "No previous year questions PDF selected."],
+        ["modelAnswersPdf", "modelAnswersPdfStatus", "No model answers PDF selected."],
+        ["manualAnswerKeyPdf", "manualAnswerKeyPdfStatus", "No manual answer key PDF selected."]
+    ].forEach(([inputId, statusId, emptyText]) => {
+        document.getElementById(inputId).value="";
+        document.getElementById(statusId).innerText=emptyText;
+    });
+}
+
+function loadSubjectResources(){
+
+    const subject=portalSubjects.find(item => item.id === Number(document.getElementById("resourceSubject").value));
+    const resources=subject && subject.resources ? subject.resources : {};
+
+    [1, 2, 3, 4, 5].forEach(unit => {
+        document.getElementById("chapterNotesUnit" + unit).value=resources["chapterNotesUnit" + unit] || (unit === 1 ? resources.chapterNotes || "" : "");
+        document.getElementById("chapterNotesUnit" + unit + "Pdf").value="";
+        const pdfName=resources["chapterNotesUnit" + unit + "PdfName"] || (unit === 1 ? resources.chapterNotesPdfName : "");
+        document.getElementById("chapterNotesUnit" + unit + "PdfStatus").innerText=pdfName
+            ? "Saved PDF: " + pdfName
+            : "No Unit " + unit + " PDF selected.";
+    });
+    document.getElementById("importantQuestions").value=resources.importantQuestions || "";
+    document.getElementById("mcqPractice").value=resources.mcqPractice || "";
+    document.getElementById("previousQuestions").value=resources.previousQuestions || "";
+    document.getElementById("modelAnswers").value=resources.modelAnswers || "";
+    document.getElementById("manualAnswerKey").value=resources.manualAnswerKey || "";
+    document.getElementById("videoLectureUrl").value=resources.videoLectureUrl || "";
+    [
+        ["importantQuestionsPdf", "importantQuestionsPdfStatus", "No important questions PDF selected.", "importantQuestionsPdfName"],
+        ["mcqPracticePdf", "mcqPracticePdfStatus", "No MCQ practice PDF selected.", "mcqPracticePdfName"],
+        ["previousQuestionsPdf", "previousQuestionsPdfStatus", "No previous year questions PDF selected.", "previousQuestionsPdfName"],
+        ["modelAnswersPdf", "modelAnswersPdfStatus", "No model answers PDF selected.", "modelAnswersPdfName"]
+    ].forEach(([inputId, statusId, emptyText, nameKey]) => {
+        document.getElementById(inputId).value="";
+        document.getElementById(statusId).innerText=resources[nameKey]
+            ? "Saved PDF: " + resources[nameKey]
+            : emptyText;
+    });
+}
+
+async function saveSubjectResources(event){
+
+    event.preventDefault();
+
+    if(!requireAdmin()) return;
+
+    const subject=portalSubjects.find(item => item.id === Number(document.getElementById("resourceSubject").value));
+
+    if(!subject) return;
+
+    const existingResources=subject.resources || {};
+    const pdfFields=[
+        ["chapterNotesUnit1Pdf", "chapterNotesUnit1PdfName"],
+        ["chapterNotesUnit2Pdf", "chapterNotesUnit2PdfName"],
+        ["chapterNotesUnit3Pdf", "chapterNotesUnit3PdfName"],
+        ["chapterNotesUnit4Pdf", "chapterNotesUnit4PdfName"],
+        ["chapterNotesUnit5Pdf", "chapterNotesUnit5PdfName"],
+        ["importantQuestionsPdf", "importantQuestionsPdfName"],
+        ["mcqPracticePdf", "mcqPracticePdfName"],
+        ["previousQuestionsPdf", "previousQuestionsPdfName"],
+        ["modelAnswersPdf", "modelAnswersPdfName"],
+        ["manualAnswerKeyPdf", "manualAnswerKeyPdfName"]
+    ];
+    const uploadedPdfs={};
+
+    try{
+        for(const [inputId, nameKey] of pdfFields){
+            const selectedPdf=document.getElementById(inputId).files[0];
+            uploadedPdfs[inputId]=existingResources[inputId] || "";
+            uploadedPdfs[nameKey]=existingResources[nameKey] || "";
+
+            if(selectedPdf){
+                if(selectedPdf.type !== "application/pdf"){
+                    throw new Error("Please select PDF files only.");
+                }
+                if(selectedPdf.size > 1024 * 1024 * 1024){
+                    throw new Error("Each PDF must be smaller than 1 GB.");
+                }
+                uploadedPdfs[inputId]=await saveSubjectPdf(subject.id, selectedPdf, inputId);
+                uploadedPdfs[nameKey]=selectedPdf.name;
+            }
+        }
+    }catch(error){
+        document.getElementById("resourceStatus").className="auth-message error";
+        document.getElementById("resourceStatus").innerText=error.message;
+        return;
+    }
+
+    subject.resources={
+        chapterNotesUnit1:document.getElementById("chapterNotesUnit1").value.trim(),
+        chapterNotesUnit2:document.getElementById("chapterNotesUnit2").value.trim(),
+        chapterNotesUnit3:document.getElementById("chapterNotesUnit3").value.trim(),
+        chapterNotesUnit4:document.getElementById("chapterNotesUnit4").value.trim(),
+        chapterNotesUnit5:document.getElementById("chapterNotesUnit5").value.trim(),
+        chapterNotesUnit1Pdf:uploadedPdfs.chapterNotesUnit1Pdf,
+        chapterNotesUnit1PdfName:uploadedPdfs.chapterNotesUnit1PdfName,
+        chapterNotesUnit2Pdf:uploadedPdfs.chapterNotesUnit2Pdf,
+        chapterNotesUnit2PdfName:uploadedPdfs.chapterNotesUnit2PdfName,
+        chapterNotesUnit3Pdf:uploadedPdfs.chapterNotesUnit3Pdf,
+        chapterNotesUnit3PdfName:uploadedPdfs.chapterNotesUnit3PdfName,
+        chapterNotesUnit4Pdf:uploadedPdfs.chapterNotesUnit4Pdf,
+        chapterNotesUnit4PdfName:uploadedPdfs.chapterNotesUnit4PdfName,
+        chapterNotesUnit5Pdf:uploadedPdfs.chapterNotesUnit5Pdf,
+        chapterNotesUnit5PdfName:uploadedPdfs.chapterNotesUnit5PdfName,
+        importantQuestions:document.getElementById("importantQuestions").value.trim(),
+        importantQuestionsPdf:uploadedPdfs.importantQuestionsPdf,
+        importantQuestionsPdfName:uploadedPdfs.importantQuestionsPdfName,
+        mcqPractice:document.getElementById("mcqPractice").value.trim(),
+        mcqPracticePdf:uploadedPdfs.mcqPracticePdf,
+        mcqPracticePdfName:uploadedPdfs.mcqPracticePdfName,
+        previousQuestions:document.getElementById("previousQuestions").value.trim(),
+        previousQuestionsPdf:uploadedPdfs.previousQuestionsPdf,
+        previousQuestionsPdfName:uploadedPdfs.previousQuestionsPdfName,
+        modelAnswers:document.getElementById("modelAnswers").value.trim(),
+        modelAnswersPdf:uploadedPdfs.modelAnswersPdf,
+        modelAnswersPdfName:uploadedPdfs.modelAnswersPdfName,
+        manualAnswerKey:document.getElementById("manualAnswerKey").value.trim(),
+        manualAnswerKeyPdf:uploadedPdfs.manualAnswerKeyPdf,
+        manualAnswerKeyPdfName:uploadedPdfs.manualAnswerKeyPdfName,
+        videoLectureUrl:document.getElementById("videoLectureUrl").value.trim()
+    };
+
+    try{
+        localStorage.setItem("portalSubjects", JSON.stringify(portalSubjects));
+        await saveSharedSubject(subject);
+        document.getElementById("resourceStatus").className="auth-message success";
+        document.getElementById("resourceStatus").innerText="Study resources saved for " + subject.name + ".";
+        pdfFields.forEach(([inputId, nameKey]) => {
+            const statusId=inputId + "Status";
+            document.getElementById(statusId).innerText=uploadedPdfs[nameKey]
+                ? "Saved PDF: " + uploadedPdfs[nameKey]
+                : "No PDF selected.";
+        });
+    }catch(error){
+        document.getElementById("resourceStatus").className="auth-message error";
+        document.getElementById("resourceStatus").innerText="PDF is too large for browser storage. Try a smaller file.";
+    }
+}
+
+function readFileAsDataUrl(file){
+
+    return new Promise((resolve, reject) => {
+        const reader=new FileReader();
+        reader.onload=() => resolve(reader.result);
+        reader.onerror=reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+function saveAnnouncement(event){
+
+    event.preventDefault();
+
+    if(!requireAdmin()) return;
+    const announcement=document.getElementById("announcementInput").value.trim();
+    localStorage.setItem("portalAnnouncement", announcement);
+    document.getElementById("announcementStatus").className="auth-message success";
+    document.getElementById("announcementStatus").innerText="Announcement saved.";
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function openProfile(){
+
+    const student=
+        JSON.parse(
+            localStorage.getItem("currentStudent")
+        );
+
+    if(!student) return;
+
+
+    document.getElementById("profileName").innerText=
+        student.name;
+
+    document.getElementById("profileEmail").innerText=
+        student.email;
+
+    document.getElementById("profileMobile").innerText=
+        student.mobile;
+
+    document.getElementById("profileBranch").innerText=
+        student.branch;
+
+    document.getElementById("profileSemester").innerText=
+        "Semester "+student.semester;
+
+
+    document.getElementById("profileModal").style.display=
+        "flex";
+
+}
+
+
+function closeProfile(){
+
+    document.getElementById("profileModal").style.display=
+        "none";
+
+}
+
+
+/* =====================================================
+   DISPLAY SUBJECTS
+===================================================== */
+
+function displaySubjects(list){
+
+    const grid=
+        document.getElementById("subjectGrid");
+
+    grid.innerHTML="";
+
+
+    if(list.length===0){
+
+        grid.innerHTML=`
+
+        <div style="
+            grid-column:1/-1;
+            text-align:center;
+            padding:50px;
+            background:white;
+            border-radius:18px;
+        ">
+
+            <h2>🔍 No Subject Found</h2>
+
+            <p style="margin-top:10px;color:#64748b;">
+                Try another search.
+            </p>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+    list.forEach(subject=>{
+
+        grid.innerHTML+=`
+
+        <div class="subject-card">
+
+            <div class="subject-top">
+
+                <div class="subject-icon">
+                    ${subject.icon}
+                </div>
+
+                <div>
+
+                    <div class="subject-number">
+                        SUBJECT ${subject.id}
+                    </div>
+
+                    <h3>
+                        ${subject.name}
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <p>
+                Semester ${subject.semester}
+            </p>
+
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:${subject.progress}%">
+                </div>
+
+            </div>
+
+
+            <p>
+                Learning Progress:
+                <strong>${subject.progress}%</strong>
+            </p>
+
+
+            <div class="card-buttons">
+
+                <button
+                    class="primary"
+                    onclick="openSubject(${subject.id})">
+                    📖 Study
+                </button>
+
+                <button
+                    onclick="openSubject(${subject.id})">
+                    ⭐ Important
+                </button>
+
+                <button
+                    onclick="openSubject(${subject.id})">
+                    🧠 MCQs
+                </button>
+
+                <button
+                    onclick="openSubject(${subject.id})">
+                    📥 Notes
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function searchSubjects(){
+
+    const search=
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const semester=
+        document
+        .getElementById("semesterFilter")
+        .value;
+
+
+    const result=
+        portalSubjects.filter(subject=>{
+
+            const matchesSearch=
+                subject.name
+                .toLowerCase()
+                .includes(search);
+
+            const matchesSemester=
+                semester==="all" ||
+                subject.semester==semester;
+
+            return matchesSearch &&
+                   matchesSemester;
+
+        });
+
+
+    displaySubjects(result);
+
+}
+
+
+/* =====================================================
+   SEMESTER FILTER
+===================================================== */
+
+function filterSubjects(){
+
+    searchSubjects();
+
+}
+
+
+/* =====================================================
+   OPEN SUBJECT
+===================================================== */
+
+function openSubject(id){
+
+    const subject=
+        portalSubjects.find(s=>s.id===id);
+
+    activeSubjectId=id;
+
+
+    document
+        .getElementById("modalTitle")
+        .innerText=
+        subject.icon+" "+subject.name;
+
+
+    document
+        .getElementById("modalSubtitle")
+        .innerText=
+        "Semester "+
+        subject.semester+
+        " • Progress "+
+        subject.progress+
+        "%";
+
+    document.getElementById("modalDescription").innerText=subject.description || "";
+
+
+    document
+        .getElementById("subjectModal")
+        .style.display=
+        "flex";
+
+}
+
+
+/* =====================================================
+   CLOSE SUBJECT MODAL
+===================================================== */
+
+function closeModal(){
+
+    document
+        .getElementById("subjectModal")
+        .style.display=
+        "none";
+
+}
+
+
+/* =====================================================
+   RESOURCE MESSAGE
+===================================================== */
+
+function resourceMessage(resource){
+
+    if(resource === "Chapter-wise Notes"){
+        openUnitNotesModal();
+        return;
+    }
+
+    if(resource === "Syllabus"){
+
+        const subject=portalSubjects.find(item => item.id === activeSubjectId);
+
+        if(!subject){
+            alert("This subject is no longer available.");
+            closeModal();
+            return;
+        }
+
+        if(subject.syllabusPdf){
+            viewStoredPdf(subject.syllabusPdf, subject.syllabusPdfName || subject.name + " - Syllabus.pdf");
+            return;
+        }
+
+        if(subject.syllabusPdfName){
+            getSubjectPdf(subject.id).then(pdf => {
+                if(pdf){
+                    viewStoredPdf(pdf, subject.syllabusPdfName);
+                }else{
+                    alert("Syllabus PDF is not available for " + subject.name + ".");
+                }
+            });
+            return;
+        }
+
+        alert("Syllabus PDF has not been uploaded for " + subject.name + " yet.");
+        return;
+    }
+
+    const subject=portalSubjects.find(item => item.id === activeSubjectId);
+    const resourceKey={
+        "Chapter-wise Notes":"chapterNotes",
+        "Important Questions":"importantQuestions",
+        "MCQ Practice":"mcqPractice",
+        "Previous Year Questions":"previousQuestions",
+        "Model Answers":"modelAnswers",
+        "Manual Answer Key":"manualAnswerKey",
+        "Video Lecture":"videoLectureUrl"
+    }[resource];
+    const pdfKey={
+        "Chapter-wise Notes":"chapterNotesPdf",
+        "Important Questions":"importantQuestionsPdf",
+        "MCQ Practice":"mcqPracticePdf",
+        "Previous Year Questions":"previousQuestionsPdf",
+        "Model Answers":"modelAnswersPdf",
+        "Manual Answer Key":"manualAnswerKeyPdf",
+        
+    }[resource];
+    const pdfNameKey=pdfKey ? pdfKey + "Name" : "";
+
+    if(resourceKey){
+
+        if(!subject){
+            alert("This subject is no longer available.");
+            closeModal();
+            return;
+        }
+
+        const resources=subject.resources || {};
+
+        if(pdfKey && resources[pdfKey]){
+            viewStoredPdf(resources[pdfKey], resources[pdfNameKey] || subject.name + " - " + resource + ".pdf");
+            return;
+        }
+
+        if(pdfKey && resources[pdfNameKey]){
+            getSubjectPdf(subject.id, pdfKey).then(pdf => pdf
+                ? viewStoredPdf(pdf, resources[pdfNameKey])
+                : alert(resource + " PDF is not available for " + subject.name + "."));
+            return;
+        }
+
+        const content=subject && subject.resources && subject.resources[resourceKey]
+            ? subject.resources[resourceKey]
+            : resource + " has not been added yet.";
+        saveResourceAsPdf(subject, resource, content);
+        return;
+    }
+
+    if(resource === "Video Lecture"){
+        const videoUrl=subject && subject.resources && subject.resources.videoLectureUrl;
+        if(!videoUrl){
+            alert("Video lecture has not been added for " + (subject ? subject.name : "this subject") + " yet.");
+            return;
+        }
+        window.open(videoUrl, "_blank", "noopener,noreferrer");
+        return;
+    }
+
+    alert(
+        resource+
+        " section will be connected here.\n\n"+
+        "You can later add your real notes, PDFs, MCQs and question banks."
+    );
+
+}
+
+function openUnitNotesModal(){
+
+    const subject=portalSubjects.find(item => item.id === activeSubjectId);
+    if(!subject){
+        alert("This subject is no longer available.");
+        closeModal();
+        return;
+    }
+
+    document.getElementById("unitNotesTitle").innerText=subject.name + " - Chapter-wise Notes";
+    document.getElementById("unitNotesSubtitle").innerText="Semester " + subject.semester;
+    document.getElementById("unitNotesList").innerHTML=[1, 2, 3, 4, 5].map(unit => `
+        <li onclick="openUnitNote(${unit})">📘 Unit ${unit}</li>
+    `).join("");
+    document.getElementById("unitNotesModal").style.display="flex";
+}
+
+function openUnitNote(unit){
+
+    const subject=portalSubjects.find(item => item.id === activeSubjectId);
+    const resources=subject && subject.resources ? subject.resources : {};
+    const pdfKey="chapterNotesUnit" + unit + "Pdf";
+    const pdfNameKey=pdfKey + "Name";
+    const savedPdf=resources[pdfKey] || (unit === 1 ? resources.chapterNotesPdf : "");
+    const savedPdfName=resources[pdfNameKey] || (unit === 1 ? resources.chapterNotesPdfName : "");
+    const text=resources["chapterNotesUnit" + unit] || "Unit " + unit + " notes have not been added yet.";
+
+    if(savedPdf){
+        viewStoredPdf(savedPdf, savedPdfName || subject.name + " - Unit " + unit + ".pdf");
+        return;
+    }
+    if(savedPdfName){
+        getSubjectPdf(subject.id, pdfKey).then(pdf => pdf
+            ? viewStoredPdf(pdf, savedPdfName)
+            : openResourcePrintWindow(subject.name + " - Unit " + unit + " Notes", subject.semester, text));
+        return;
+    }
+    if(resources["chapterNotesUnit" + unit]){
+        openResourcePrintWindow(subject.name + " - Unit " + unit + " Notes", subject.semester, text);
+        return;
+    }
+    alert("Unit " + unit + " notes have not been added yet.");
+}
+
+function closeUnitNotesModal(){
+    document.getElementById("unitNotesModal").style.display="none";
+}
+
+function saveSyllabusAsPdf(){
+
+    const subject=portalSubjects.find(item => item.id === activeSubjectId);
+
+    if(!subject || !subject.syllabus){
+        alert("This subject does not have a syllabus yet.");
+        return;
+    }
+
+    const printWindow=window.open("", "_blank");
+
+    if(!printWindow){
+        alert("Please allow pop-ups to save the syllabus as a PDF.");
+        return;
+    }
+
+    const safeTitle=escapeHtml(subject.name);
+    const syllabus=subject.syllabusSections && subject.syllabusSections.length
+        ? subject.syllabusSections.map(section => section.title + "\n" + section.content).join("\n\n")
+        : subject.syllabus;
+    const safeSyllabus=escapeHtml(syllabus).replace(/\r?\n/g, "<br>");
+
+    printWindow.document.write(`<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>${safeTitle} - Syllabus</title>
+            <style>
+                body{font-family:Arial,sans-serif;color:#172033;max-width:800px;margin:50px auto;padding:0 30px;line-height:1.7}
+                h1{color:#2563eb;border-bottom:2px solid #2563eb;padding-bottom:12px}
+                h2{color:#64748b;font-size:16px;font-weight:normal}
+                .syllabus{margin-top:30px;white-space:normal}
+                @media print{body{margin:20px auto}}
+            </style>
+        </head>
+        <body>
+            <h1>${safeTitle}</h1>
+            <h2>Mechanical Department Student Academic Year • Semester ${subject.semester}</h2>
+            <div class="syllabus">${safeSyllabus}</div>
+        </body>
+        </html>`);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.onload=function(){
+        printWindow.print();
+    };
+}
+
+function saveResourceAsPdf(subject, resource, content){
+
+    if(!content || content === resource + " has not been added yet."){
+        alert("This resource has not been added yet.");
+        return;
+    }
+
+    openResourcePrintWindow(subject.name + " - " + resource, subject.semester, content);
+}
+
+function downloadStoredPdf(dataUrl, fileName){
+
+    const link=document.createElement("a");
+    link.href=dataUrl instanceof Blob ? URL.createObjectURL(dataUrl) : dataUrl;
+    link.download=fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+}
+
+function viewStoredPdf(dataUrl, fileName){
+
+    const pdfUrl=dataUrl instanceof Blob ? URL.createObjectURL(dataUrl) : dataUrl;
+    const pdfWindow=window.open(pdfUrl, "_blank");
+
+    if(!pdfWindow){
+        alert("Please allow pop-ups to read the syllabus PDF.");
+        return;
+    }
+
+    pdfWindow.document.title=fileName;
+}
+
+function openPdfDatabase(){
+
+    return new Promise((resolve, reject) => {
+        const request=indexedDB.open("mechanicalStudentPortalFiles", 1);
+        request.onupgradeneeded=function(){
+            request.result.createObjectStore("syllabusPdfs");
+        };
+        request.onsuccess=function(){ resolve(request.result); };
+        request.onerror=function(){ reject(request.error); };
+    });
+}
+
+async function saveSubjectPdf(subjectId, pdfFile, fileKey="syllabus"){
+    if(!supabaseStorageClient) throw new Error("Configure SUPABASE_URL and SUPABASE_ANON_KEY before uploading files.");
+    const storagePath="subjects/" + subjectId + "/" + fileKey + ".pdf";
+    const upload=await supabaseStorageClient.storage.from(SUPABASE_BUCKET).upload(storagePath, pdfFile, {upsert:true, contentType:"application/pdf"});
+    if(upload.error) throw upload.error;
+    return supabaseStorageClient.storage.from(SUPABASE_BUCKET).getPublicUrl(storagePath).data.publicUrl;
+}
+
+async function getSubjectPdf(subjectId, fileKey="syllabus"){
+
+    try{
+        if(!supabaseStorageClient) return null;
+        const storagePath="subjects/" + subjectId + "/" + fileKey + ".pdf";
+        const publicUrl=supabaseStorageClient.storage.from(SUPABASE_BUCKET).getPublicUrl(storagePath).data.publicUrl;
+        const response=await fetch(publicUrl);
+        return response.ok ? await response.blob() : null;
+    }catch(error){
+        return null;
+    }
+}
+
+function saveAllResourcesAsPdf(){
+
+    const subject=portalSubjects.find(item => item.id === activeSubjectId);
+
+    if(!subject){
+        alert("This subject is no longer available.");
+        closeModal();
+        return;
+    }
+
+    const resources=subject.resources || {};
+    const resourceNames={
+        chapterNotes:"Chapter-wise Notes",
+        importantQuestions:"Important Questions",
+        mcqPractice:"MCQ Practice",
+        previousQuestions:"Previous Year Questions",
+        modelAnswers:"Model Answers"
+    };
+    const sections=Object.keys(resourceNames)
+        .filter(key => resources[key])
+        .map(key => `<section><h2>${escapeHtml(resourceNames[key])}</h2><p>${escapeHtml(resources[key]).replace(/\r?\n/g, "<br>")}</p></section>`)
+        .join("");
+
+    if(!sections){
+        alert("No study resources have been added yet.");
+        return;
+    }
+
+    openResourcePrintWindow(subject.name + " - Study Resources", subject.semester, sections, true);
+}
+
+function openResourcePrintWindow(title, semester, content, isHtml=false){
+
+    const printWindow=window.open("", "_blank");
+
+    if(!printWindow){
+        alert("Please allow pop-ups to download the resource as a PDF.");
+        return;
+    }
+
+    const safeTitle=escapeHtml(title);
+    const safeContent=isHtml ? content : escapeHtml(content).replace(/\r?\n/g, "<br>");
+
+    printWindow.document.write(`<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>${safeTitle}</title>
+            <style>
+                body{font-family:Arial,sans-serif;color:#172033;max-width:800px;margin:50px auto;padding:0 30px;line-height:1.7}
+                h1{color:#2563eb;border-bottom:2px solid #2563eb;padding-bottom:12px}
+                h2{color:#2563eb;margin-top:28px;border-bottom:1px solid #dbe2ea;padding-bottom:6px}
+                .subtitle{color:#64748b}
+                section{break-inside:avoid}
+                @media print{body{margin:20px auto}}
+            </style>
+        </head>
+        <body>
+            <h1>${safeTitle}</h1>
+            <p class="subtitle">Mechanical Department Student Academic Year • Semester ${semester}</p>
+            <div>${safeContent}</div>
+        </body>
+        </html>`);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.onload=function(){
+        printWindow.print();
+    };
+}
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleDarkMode(){
+
+    document
+        .body
+        .classList
+        .toggle("dark");
+
+
+    const dark=
+        document
+        .body
+        .classList
+        .contains("dark");
+
+
+    localStorage.setItem(
+        "darkMode",
+        dark
+    );
+
+}
+
+
+/* =====================================================
+   LOAD DARK MODE
+===================================================== */
+
+if(
+    localStorage.getItem("darkMode")==="true"
+){
+
+    document
+        .body
+        .classList
+        .add("dark");
+
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+function showAbout(){
+
+    alert(
+        "Mechanical Department Student Academic Year\n\n"+
+        "A study platform for Diploma Mechanical Engineering students.\n\n"+
+        "Subjects • Notes • MCQs • Important Questions • PYQs"
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE MODALS OUTSIDE
+===================================================== */
+
+window.onclick=function(event){
+
+    const subjectModal=
+        document.getElementById("subjectModal");
+
+    const profileModal=
+        document.getElementById("profileModal");
+
+
+    if(event.target===subjectModal){
+
+        closeModal();
+
+    }
+
+
+    if(event.target===profileModal){
+
+        closeProfile();
+
+    }
+
+};
+
+
+/* =====================================================
+   AUTO LOGIN AFTER REFRESH
+===================================================== */
+
+window.addEventListener("DOMContentLoaded",function(){
+
+    const currentStudent=
+        JSON.parse(
+            localStorage.getItem("currentStudent")
+        );
+
+    const currentAdmin=
+        JSON.parse(
+            localStorage.getItem("currentAdmin")
+        );
+
+
+    if(currentStudent){
+
+        openPortal(currentStudent);
+
+    }else if(currentAdmin){
+
+        openAdminPortal();
+
+    }else{
+
+        document.getElementById("authScreen").style.display=
+            "flex";
+
+        document.getElementById("portal").style.display=
+            "none";
+
+    }
+
+});
+
+window.addEventListener("storage",function(event){
+
+    if(event.key !== "portalSubjects") return;
+
+    portalSubjects=loadPortalSubjects();
+
+    if(localStorage.getItem("currentStudent") && document.getElementById("subjectGrid")){
+        searchSubjects();
+    }
+});
+
+</script>/
+
+
+</body>
+</html>
